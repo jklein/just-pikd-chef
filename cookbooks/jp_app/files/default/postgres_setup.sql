@@ -23,15 +23,15 @@ DO
 $do$
 BEGIN
 
-IF NOT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'jp_product') THEN
-   SELECT dblink_exec('dbname=postgres', 'CREATE DATABASE jp_product');
+IF NOT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'product') THEN
+   SELECT dblink_exec('dbname=postgres', 'CREATE DATABASE product');
 END IF;
 
 END
 $do$
 ;
 
-GRANT CONNECT, TEMPORARY ON DATABASE jp_product to jp_readwrite;
+GRANT CONNECT, TEMPORARY ON DATABASE product to jp_readwrite;
 
 GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE
 ON ALL TABLES IN SCHEMA public to jp_readwrite;
