@@ -39,3 +39,8 @@ end
 nginx_site 'default' do
   enable node['nginx']['default_site_enabled']
 end
+
+cookbook_file "#{node['nginx']['dir']}/conf.d/just_pikd.conf" do
+  source "just_pikd.conf"
+  mode 0644
+end

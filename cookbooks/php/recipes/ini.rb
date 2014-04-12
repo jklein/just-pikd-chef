@@ -28,3 +28,13 @@ template "#{node['php']['conf_dir']}/php.ini" do
 	end
 	variables(:directives => node['php']['directives'])
 end
+
+cookbook_file "/etc/php5/conf.d/php-fpm.conf" do
+  source "php-fpm.conf"
+  mode 0644
+end
+
+cookbook_file "/etc/init.d/php-fpm" do
+  source "php-fpm"
+  mode 0755
+end
