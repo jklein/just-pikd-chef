@@ -7,4 +7,4 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "2.3.2"
 recipe "bluepill::default", "Installs bluepill rubygem and set up management directories"
 
-depends "rsyslog"
+#depends "rsyslog"

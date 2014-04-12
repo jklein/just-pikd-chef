@@ -2,12 +2,12 @@ DO
 $do$
 BEGIN
 
-IF NOT EXISTS (select exists (select 1 from pg_type where typname = 'measurement_unit')) THEN
+IF NOT EXISTS (select 1 from pg_type where typname = 'measurement_unit') THEN
   CREATE TYPE measurement_unit
 AS ENUM ('fl oz', 'oz', 'sq ft', 'lbs', 'count');
 END IF;
 
-IF NOT EXISTS (select exists (select 1 from pg_type where typname = 'temperature_zone')) THEN
+IF NOT EXISTS (select 1 from pg_type where typname = 'temperature_zone') THEN
   CREATE TYPE temperature_zone
   AS ENUM ('frozen', 'cold', 'fresh', 'dry');
 END IF;
@@ -17,7 +17,7 @@ $do$
 ;
 
 
-create table products if not exists (
+create table if not exists products (
 product_id serial primary key,
 name varchar(255) not null,
 temperature_zone temperature_zone not null,

@@ -78,7 +78,7 @@ else
   default['php']['packages']      = %w{ php5-cgi php5 php5-dev php5-cli php-pear }
 end
 
-default['php']['url'] = 'http://us1.php.net/get'
+default['php']['url'] = 'http://us2.php.net/get'
 default['php']['version'] = '5.5.11'
 default['php']['checksum'] = '9156fcd4b254cbfa9a7535f931da29d5'
 default['php']['prefix_dir'] = '/usr/local'

@@ -7,10 +7,10 @@ version           '1.4.7'
 
 depends 'build-essential'
 depends 'xml'
-depends 'mysql'
-depends 'yum-epel'
-depends 'windows'
-depends 'iis'
+#depends 'mysql'
+#depends 'yum-epel'
+#depends 'windows'
+#depends 'iis'
 
 %w{ debian ubuntu centos redhat fedora scientific amazon windows oracle }.each do |os|
   supports os

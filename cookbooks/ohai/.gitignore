@@ -1,7 +1,7 @@
-*.sw?
+*.swp
+.kitchen/
+.kitchen.local.yml
+.librarian/
+Cheffile.lock
 Gemfile.lock
-pkg/
 tmp/
-coverage/
-.DS_Store
-.bundle
