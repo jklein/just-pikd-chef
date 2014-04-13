@@ -11,7 +11,7 @@
 php_fpm_BIN=/usr/local/sbin/php-fpm
 php_fpm_CONF=/etc/php5/conf.d/php-fpm.conf
 php_fpm_PID=/var/run/php-fpm.pid
-php_opts="--fpm-config $php_fpm_CONF"
+php_opts="--fpm-config $php_fpm_CONF --pid $php_fpm_PID"
 wait_for_pid () {
         try=0
         while test $try -lt 35 ; do
