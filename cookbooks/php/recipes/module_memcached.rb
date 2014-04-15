@@ -1,8 +1,7 @@
 #
-# Author::  Joshua Timberman (<joshua@opscode.com>)
-# Author::  Seth Chisamore (<schisamo@opscode.com>)
+# Author::  Scott Sandler (<scott.m.sandler@gmail.com>)
 # Cookbook Name:: php
-# Recipe:: module_memcache
+# Recipe:: module_memcached
 #
 # Copyright 2009-2011, Opscode, Inc.
 #
@@ -19,19 +18,31 @@
 # limitations under the License.
 #
 
-case node['platform_family']
-when 'rhel', 'fedora'
-  %w{ zlib-devel }.each do |pkg|
-    package pkg do
-      action :install
-    end
-  end
-  php_pear 'memcache' do
-    action :install
-    # directives(:shm_size => "128M", :enable_cli => 0)
-  end
-when 'debian'
-  package 'php5-memcache' do
+configure_options = %w{ --disable-memcached-sasl }
+
+version = node['php']['pecl-memcached']['version']
+
+package 'libmemcached-dev' do
     action :install
   end
+
+remote_file "#{Chef::Config[:file_cache_path]}/memcached-#{version}.tgz" do
+  source "#{node['php']['pecl-url']}/memcached-#{version}.tgz"
+  mode 0644
+end
+
+bash 'build pecl-memcached' do
+  cwd Chef::Config[:file_cache_path]
+  code <<-EOF
+  tar -zxf memcached-#{version}.tgz
+  (cd memcached-#{version} && phpize)
+  (cd memcached-#{version} && ./configure --disable-memcached-sasl)
+  (cd memcached-#{version} && make && make install)
+  EOF
+  not_if { ::File.exists?("/usr/local/lib/php/extensions/no-debug-non-zts-20121212/memcached.so") }
+end
+
+cookbook_file "#{node['php']['ext_conf_dir']}/memcached.ini" do
+  source "memcached.ini"
+  mode 0644
 end

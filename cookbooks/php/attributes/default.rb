@@ -25,7 +25,8 @@ default['php']['bin'] = 'php'
 
 default['php']['pear'] = 'pear'
 default['php']['pecl'] = 'pecl'
-
+default['php']['pecl-url'] = 'http://pecl.php.net/get'
+default['php']['pecl-memcached']['version'] = '2.2.0'
 case node['platform_family']
 when 'rhel', 'fedora'
   lib_dir = node['kernel']['machine'] =~ /x86_64/ ? 'lib64' : 'lib'
