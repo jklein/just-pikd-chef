@@ -17,9 +17,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-configure_options = %w{ --disable-memcached-sasl }
-
 version = node['php']['pecl-memcached']['version']
 
 package 'libmemcached-dev' do
