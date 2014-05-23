@@ -76,7 +76,7 @@ if (!has_results($connections['customer'], "select 1 from information_schema.tab
     $sql = <<<'Customers'
 CREATE TABLE customers (
   customer_id serial primary key,
-  email varchar(255) NOT NULL,
+  email varchar(255) NOT NULL UNIQUE,
   password varchar(255) NOT NULL,
   permissions text,
   activated boolean NOT NULL DEFAULT FALSE,
