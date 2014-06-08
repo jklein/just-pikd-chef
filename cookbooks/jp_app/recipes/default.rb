@@ -16,3 +16,11 @@ execute 'set up postgres' do
   command 'php -f /root/postgres_setup.php'
   user 'root'
 end
+
+# Create a log file
+file "/var/log/testlog.log" do
+  owner "root"
+  group "root"
+  mode "0755"
+  action :create
+end

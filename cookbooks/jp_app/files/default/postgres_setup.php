@@ -72,8 +72,8 @@ CREATE TABLE customers (
   reset_password_code varchar(255) DEFAULT NULL,
   first_name varchar(255) DEFAULT NULL,
   last_name varchar(255) DEFAULT NULL,
-  created_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  created_at timestamp NOT NULL DEFAULT now(),
+  updated_at timestamp NOT NULL DEFAULT now()
 );
 Customers;
 maybe_create_table($connections['customer'], 'customers', $customer_sql);
