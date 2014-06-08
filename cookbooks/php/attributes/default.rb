@@ -80,8 +80,8 @@ else
 end
 
 default['php']['url'] = 'http://us2.php.net/get'
-default['php']['version'] = '5.5.11'
-default['php']['checksum'] = '9156fcd4b254cbfa9a7535f931da29d5' # This is the .tar.gz md5
+default['php']['version'] = '5.5.13'
+default['php']['checksum'] = '32d0fc26fccdb249a918c0e01ffb7b82' # This is the .tar.gz md5
 default['php']['prefix_dir'] = '/usr/local'
 
 default['php']['configure_options'] = %W{--prefix=#{php['prefix_dir']}
