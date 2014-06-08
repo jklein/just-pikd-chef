@@ -29,7 +29,7 @@ if (!has_results($connections['product'], "select 1 from information_schema.tabl
     we should update this to use a pgpass file instead of the hard coded, plain text password ideally
 
     The dump is created with this command (via vagrant ssh):
-    pg_dump -h localhost -U postgres -d product -W -Fc  > product.dump
+    pg_dump -h localhost -U postgres -d product -W -Fc  > /usr/share/nginx/html/data/product.dump
 
     I found this didn't work when using the --clean option.
     Also didn't use --create because I don't want DB permissions set
