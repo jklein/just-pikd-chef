@@ -21,6 +21,6 @@ end
 file "/var/log/testlog.log" do
   owner "root"
   group "root"
-  mode "0755"
+  mode "0777"
   action :create
 end
