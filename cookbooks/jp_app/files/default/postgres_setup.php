@@ -23,26 +23,13 @@ foreach ($databases as $database) {
     $connections[$database] = get_connection($database);
 }
 
-// Create types
-if (!has_results($connections['product'], "select 1 from pg_type where typname = 'measurement_unit';")) {
-    pg_query(
-        $connections['product'],
-        "CREATE TYPE measurement_unit
-        AS ENUM ('fl oz', 'oz', 'sq ft', 'lbs', 'count');"
-    );
-}
+// Create types if they don't already exist
+maybe_create_type($connections['product'], 'measurement_unit', ['fl oz', 'oz', 'sq ft', 'lbs', 'count']);
+maybe_create_type($connections['product'], 'temperature_zone', ['frozen', 'cold', 'fresh', 'dry']);
 
-if (!has_results($connections['product'], "select 1 from pg_type where typname = 'temperature_zone';")) {
-    pg_query(
-        $connections['product'],
-        "CREATE TYPE temperature_zone
-        AS ENUM ('frozen', 'cold', 'fresh', 'dry');"
-    );
-}
-
-if (!has_results($connections['product'], "select 1 from information_schema.tables where table_name = 'products';")) {
-    // Note: need to make a manufacturer for any kind of supplier including a farmer, etc. who gives us produce
-    $sql = <<<'Products'
+// Create tables
+// Note: need to make a manufacturer for any kind of supplier including a farmer, etc. who gives us produce
+$product_sql = <<<'Products'
 create table products (
     product_id serial primary key,
     name varchar(255) not null,
@@ -68,12 +55,10 @@ create table products (
     shelf_life_days int
 );
 Products;
+maybe_create_table($connections['product'], 'products', $product_sql);
 
-    pg_query($connections['product'], $sql);
-}
 
-if (!has_results($connections['customer'], "select 1 from information_schema.tables where table_name = 'customers';")) {
-    $sql = <<<'Customers'
+$customer_sql = <<<'Customers'
 CREATE TABLE customers (
   customer_id serial primary key,
   email varchar(255) NOT NULL UNIQUE,
@@ -91,9 +76,8 @@ CREATE TABLE customers (
   updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
 Customers;
+maybe_create_table($connections['customer'], 'customers', $customer_sql);
 
-    pg_query($connections['customer'], $sql);
-}
 
 //grant permissions, has to be done after tables are created
 $grant = "GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE ON ALL TABLES IN SCHEMA public to jp_readwrite;";
@@ -113,4 +97,19 @@ function has_results ($connection, $query) {
         return false;
     }
     return pg_num_rows($result);
+}
+
+function maybe_create_type($connection, $name, $values) {
+    if (!has_results($connection, "select 1 from pg_type where typname = '" . $name . "';")) {
+      pg_query(
+          $connection,
+          "CREATE TYPE " . $name . " AS ENUM ('" . implode("','", $values) . "');"
+      );
+  }
+}
+
+function maybe_create_table($connection, $table_name, $sql) {
+    if (!has_results($connection, "select 1 from information_schema.tables where table_name = '" . $table_name . "';")) {
+        pg_query($connection, $sql);
+    }
 }
