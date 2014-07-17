@@ -19,6 +19,7 @@
 #
 
 lib_dir = 'lib'
+
 default['php']['install_method'] = 'source'
 default['php']['directives'] = {}
 default['php']['bin'] = 'php'
@@ -104,7 +105,6 @@ default['php']['configure_options'] = %W{--prefix=#{php['prefix_dir']}
                                          --with-gd
                                          --enable-gd-native-ttf
                                          --with-gettext
-                                         --with-gmp
                                          --with-mhash
                                          --with-iconv
                                          --with-imap
@@ -113,7 +113,6 @@ default['php']['configure_options'] = %W{--prefix=#{php['prefix_dir']}
                                          --enable-soap
                                          --enable-opcache
                                          --with-xmlrpc
-                                         --with-libevent-dir
                                          --with-mcrypt
                                          --enable-mbstring
                                          --with-t1lib

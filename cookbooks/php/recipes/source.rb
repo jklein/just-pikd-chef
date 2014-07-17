@@ -27,7 +27,7 @@ include_recipe 'yum-epel' if node['platform_family'] == 'rhel'
 
 pkgs = value_for_platform_family(
   %w{ rhel fedora } => %w{ bzip2-devel libc-client-devel curl-devel freetype-devel gmp-devel libjpeg-devel krb5-devel libmcrypt-devel libpng-devel openssl-devel t1lib-devel mhash-devel },
-  %w{ debian ubuntu } => %w{ libbz2-dev libc-client2007e-dev libcurl4-gnutls-dev libfreetype6-dev libgmp3-dev libjpeg62-dev libkrb5-dev libmcrypt-dev libpng12-dev libssl-dev libt1-dev },
+  %w{ debian ubuntu } => %w{ bison libbz2-dev libc-client2007e-dev libcurl4-gnutls-dev libfreetype6-dev libgmp3-dev libgmp-dev libjpeg62-dev libkrb5-dev libmcrypt-dev libpng12-dev libssl-dev libt1-dev re2c },
   'default' => %w{ libbz2-dev libc-client2007e-dev libcurl4-gnutls-dev libfreetype6-dev libgmp3-dev libjpeg62-dev libkrb5-dev libmcrypt-dev libpng12-dev libssl-dev libt1-dev }
   )
 
@@ -57,6 +57,8 @@ if node['php']['ext_dir']
 else
   ext_dir_prefix = ''
 end
+
+Chef::Log.info("Building PHP from source, this may take a while...don't worry, something is happening")
 
 bash 'build php' do
   cwd Chef::Config[:file_cache_path]
