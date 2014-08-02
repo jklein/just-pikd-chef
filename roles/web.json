@@ -1,0 +1,56 @@
+{
+  "name": "web",
+  "default_attributes": {
+    "postgresql": {
+        "version": "9.3",
+        "enable_pgdg_apt": "true",
+        "config": {
+            "ssl": "false"
+        },
+        "contrib": {
+            "extensions": ["dblink"]
+        },
+        "password": {
+          "postgres": "md59138933b1a3f118cd65ed7d62808e67b"
+        },
+        "pg_hba": [
+          {"type": "host", "db": "all", "user": "postgres", "addr": "localhost", "method": "md5"},
+          {"type": "host", "db": "all", "user": "jp_readwrite", "addr": "localhost", "method": "md5"}
+        ]
+    },
+    "php": {
+        "directives": {
+            "auto_prepend_file"             : "/usr/share/nginx/html/app/src/auto_prepend.php",
+            "date.timezone"                 : "America/New_York",
+            "default_charset"               : "utf-8",
+            "default_mimetype"              : "text/html",
+            "default_socket_timeout"        : 60,
+            "zend_extension"                : "opcache.so",
+            "opcache.memory_consumption"    : 512,
+            "opcache.max_accelerated_files" : 50000,
+            "opcache.revalidate_freq"       : 0,
+            "opcache.consistency_checks"    : 1
+        }
+    }
+  },
+  "override_attributes": { },
+  "json_class": "Chef::Role",
+  "description": "The base role for systems that serve HTTP traffic",
+  "chef_type": "role",
+  "run_list": [
+    "recipe[apt]",
+    "recipe[memcached]",
+    "recipe[openssl]",
+    "recipe[build-essential]",
+    "recipe[postgresql]",
+    "recipe[postgresql::server]",
+    "recipe[postgresql::contrib]",
+    "recipe[php]",
+    "recipe[php::module_memcached]",
+    "recipe[ohai]",
+    "recipe[nginx::source]",
+    "recipe[rabbitmq]",
+    "recipe[vim]",
+    "recipe[jp_app]"
+  ]
+}
