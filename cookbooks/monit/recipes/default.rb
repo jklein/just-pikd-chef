@@ -19,7 +19,7 @@ cookbook_file "/etc/monit/monitrc" do
 end
 
 # Get our services config
-cookbook_file "/etc/monit/conf.d/justpikd" do
+cookbook_file "/etc/monit/conf.d/justpikd-services.conf" do
   source "justpikd-services.conf"
   mode 0700
 end
