@@ -50,6 +50,7 @@
     "recipe[nginx::source]",
     "recipe[rabbitmq]",
     "recipe[vim]",
+    "recipe[monit]",
     "recipe[jp_app]"
   ]
 }
