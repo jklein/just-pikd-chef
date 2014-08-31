@@ -1,0 +1,11 @@
+{
+  "name": "ProdWeb",
+  "override_attributes": { },
+  "json_class": "Chef::Role",
+  "description": "The role for EC2 Web Boxes",
+  "chef_type": "role",
+  "run_list": [
+    "role[Base]",
+    "recipe[composer]"
+  ]
+}

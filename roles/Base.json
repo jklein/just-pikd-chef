@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "Base",
   "default_attributes": {
     "postgresql": {
         "version": "9.3",
