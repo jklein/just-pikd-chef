@@ -44,7 +44,7 @@ function load_data_if_empty($dbname) {
         above to be lost.
         */
         putenv("PGPASSWORD=justpikd");
-        exec("/usr/bin/pg_restore -h localhost -U postgres -d $dbname -Fc < /usr/share/nginx/html/data/$dbname.dump");
+        exec("/usr/bin/pg_restore -h localhost -U postgres -d $dbname -Fc < /mnt/database/$dbname.dump");
     }
 }
 
