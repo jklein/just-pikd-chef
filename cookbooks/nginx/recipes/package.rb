@@ -20,24 +20,39 @@
 
 include_recipe 'nginx::ohai_plugin'
 
-if platform_family?('rhel')
-  if node['nginx']['repo_source'] == 'epel'
-    include_recipe 'yum-epel'
-  elsif node['nginx']['repo_source'] == 'nginx'
-    include_recipe 'nginx::repo'
-  elsif node['nginx']['repo_source'].nil?
-    log "node['nginx']['repo_source'] was not set, no additional yum repositories will be installed." do
-      level :debug
-    end
-  else
-    fail ArgumentError, "Unknown value '#{node['nginx']['repo_source']}' was passed to the nginx cookbook."
+#install dependencies manually, since dpkg doesn't have a good way to do this for you
+pkgs = %w{
+  libc6
+  libpcre3
+  libssl1.0.0
+  zlib1g
+  lsb-base
+  adduser
+}
+
+pkgs.each do |pkg|
+  package pkg do
+    action :install
   end
-elsif platform_family?('debian')
-  include_recipe 'nginx::repo' if node['nginx']['repo_source'] == 'nginx'
 end
 
-package node['nginx']['package_name'] do
+cookbook_file "/var/chef/nginx_1.6.1-1~trusty_amd64.deb" do
+  source "nginx_1.6.1-1~trusty_amd64.deb"
+  owner "root"
+  group "root"
+  mode "0444"
+end
+
+package 'nginx_1.6.1-1~trusty_amd64.deb' do
+  provider Chef::Provider::Package::Dpkg
+  source "/var/chef/nginx_1.6.1-1~trusty_amd64.deb"
+  action :install
   notifies :reload, 'ohai[reload_nginx]', :immediately
+end
+
+#delete default.conf if it exists
+file '/etc/nginx/conf.d/default.conf' do
+  action :delete
 end
 
 service 'nginx' do

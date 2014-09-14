@@ -18,6 +18,24 @@
 # limitations under the License.
 #
 
+directory '/etc/php5' do
+    owner 'root'
+    group 'root'
+    mode '0755'
+end
+
+directory '/etc/php5/cli' do
+    owner 'root'
+    group 'root'
+    mode '0755'
+end
+
+directory '/etc/php5/conf.d' do
+    owner 'root'
+    group 'root'
+    mode '0755'
+end
+
 template "#{node['php']['conf_dir']}/php.ini" do
 	source node['php']['ini']['template']
 	cookbook node['php']['ini']['cookbook']
@@ -29,12 +47,12 @@ template "#{node['php']['conf_dir']}/php.ini" do
 	variables(:directives => node['php']['directives'])
 end
 
-cookbook_file "/etc/php5/conf.d/php-fpm.conf" do
-  source "php-fpm.conf"
+cookbook_file '/etc/php5/conf.d/php-fpm.conf' do
+  source 'php-fpm.conf'
   mode 0644
 end
 
-cookbook_file "/etc/init.d/php-fpm" do
-  source "php-fpm"
+cookbook_file '/etc/init.d/php-fpm' do
+  source 'php-fpm'
   mode 0755
 end

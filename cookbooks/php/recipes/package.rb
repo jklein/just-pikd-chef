@@ -19,47 +19,43 @@
 # limitations under the License.
 #
 
-if platform?('windows')
+#install dependencies manually, since dpkg doesn't have a good way to do this for you
+pkgs = %w{
+  libcurl3-gnutls
+  libcurl3
+  libfreetype6
+  libgmp10
+  libmcrypt4
+  libmhash2
+  openssl
+  bzip2
+  libjpeg8
+  libpcre3
+  tzdata
+  libqdbm14
+  libonig2
+  libc6
+  libc-client2007e
+  libt1-5
+}
 
-  include_recipe 'iis::mod_cgi'
-
-  install_dir = File.expand_path(node['php']['conf_dir']).gsub('/', '\\')
-  windows_package node['php']['windows']['msi_name'] do
-    source node['php']['windows']['msi_source']
-    installer_type :msi
-
-    options %W[
-          /quiet
-          INSTALLDIR="#{install_dir}"
-          ADDLOCAL=#{node['php']['packages'].join(',')}
-    ].join(' ')
+pkgs.each do |pkg|
+  package pkg do
+    action :install
   end
+end
 
-  # WARNING: This is not the out-of-the-box go-pear.phar. It's been modified to patch this bug:
-  # http://pear.php.net/bugs/bug.php?id=16644
-  cookbook_file "#{node['php']['conf_dir']}/PEAR/go-pear.phar" do
-    source 'go-pear.phar'
-  end
+cookbook_file "/var/chef/php5_5.6.0-1_all.deb" do
+  source "php5_5.6.0-1_all.deb"
+  owner "root"
+  group "root"
+  mode "0444"
+end
 
-  template "#{node['php']['conf_dir']}/pear-options" do
-    source 'pear-options.erb'
-  end
-
-  execute 'install-pear' do
-    cwd node['php']['conf_dir']
-    command 'go-pear.bat < pear-options'
-    creates "#{node['php']['conf_dir']}/pear.bat"
-  end
-
-  ENV['PATH'] += ";#{install_dir}"
-  windows_path install_dir
-
-else
-  node['php']['packages'].each do |pkg|
-    package pkg do
-      action :install
-    end
-  end
+package 'php5_5.6.0-1_all.deb' do
+  provider Chef::Provider::Package::Dpkg
+  source "/var/chef/php5_5.6.0-1_all.deb"
+  action :install
 end
 
 include_recipe "php::ini"

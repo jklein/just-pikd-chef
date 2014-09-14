@@ -9,11 +9,11 @@ recipe 'nginx',         'Installs nginx package and sets up configuration with D
 recipe 'nginx::source', 'Installs nginx from source and sets up configuration with Debian apache style with sites-enabled/sites-available'
 
 depends 'apt',             '~> 2.2'
-depends 'bluepill',        '~> 2.3'
-depends 'build-essential', '~> 2.0'
+#depends 'bluepill',        '~> 2.3' only needed for compiling from source
+#depends 'build-essential', '~> 2.0' only needed for compiling from source
 depends 'ohai',            '~> 1.1'
 depends 'runit',           '~> 1.2'
-#depends 'yum-epel',        '~> 0.3'
+#depends 'yum-epel',        '~> 0.3' only needed on rhel
 
 supports 'amazon'
 supports 'centos'

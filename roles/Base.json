@@ -40,15 +40,14 @@
     "recipe[apt]",
     "recipe[memcached]",
     "recipe[openssl]",
-    "recipe[build-essential]",
+    "recipe[vim]",
     "recipe[postgresql]",
     "recipe[postgresql::server]",
     "recipe[postgresql::contrib]",
     "recipe[php]",
     "recipe[php::module_memcached]",
     "recipe[ohai]",
-    "recipe[nginx::source]",
-    "recipe[vim]",
+    "recipe[nginx]",
     "recipe[monit]",
     "recipe[jp_app]"
   ]

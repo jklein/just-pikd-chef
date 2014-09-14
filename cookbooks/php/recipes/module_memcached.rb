@@ -17,29 +17,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-version = node['php']['pecl-memcached']['version']
 
-package 'libmemcached-dev' do
+#install dependency since dpkg won't do it for us
+package 'libmemcached10' do
     action :install
-  end
-
-remote_file "#{Chef::Config[:file_cache_path]}/memcached-#{version}.tgz" do
-  source "#{node['php']['pecl-url']}/memcached-#{version}.tgz"
-  mode 0644
 end
 
-bash 'build pecl-memcached' do
-  cwd Chef::Config[:file_cache_path]
-  code <<-EOF
-  tar -zxf memcached-#{version}.tgz
-  (cd memcached-#{version} && phpize)
-  (cd memcached-#{version} && ./configure --disable-memcached-sasl)
-  (cd memcached-#{version} && make && make install)
-  EOF
-  not_if { ::File.exists?("/usr/local/lib/php/extensions/no-debug-non-zts-20121212/memcached.so") }
+cookbook_file "/var/chef/pecl-memcached_2.2.0-1_amd64.deb" do
+  source "pecl-memcached_2.2.0-1_amd64.deb"
+  owner "root"
+  group "root"
+  mode "0444"
 end
 
-cookbook_file "#{node['php']['ext_conf_dir']}/memcached.ini" do
-  source "memcached.ini"
-  mode 0644
+package 'pecl-memcached_2.2.0-1_amd64.deb' do
+  provider Chef::Provider::Package::Dpkg
+  source "/var/chef/pecl-memcached_2.2.0-1_amd64.deb"
+  action :install
 end
