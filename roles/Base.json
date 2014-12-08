@@ -32,6 +32,14 @@
         }
     }
   },
+  "go": {
+    "packages": [
+      "code.google.com/p/go.tools/cmd/godoc",
+      "github.com/tools/godep"
+    ],
+    "owner": "vagrant",
+    "group": "vagrant"
+  },
   "override_attributes": { },
   "json_class": "Chef::Role",
   "description": "The base role for systems that serve HTTP traffic",
@@ -49,6 +57,7 @@
     "recipe[ohai]",
     "recipe[nginx]",
     "recipe[monit]",
-    "recipe[jp_app]"
+    "recipe[jp_app]",
+    "recipe[golang::packages]"
   ]
 }
