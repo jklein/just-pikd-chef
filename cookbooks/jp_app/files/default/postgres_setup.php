@@ -10,7 +10,8 @@ if (!has_results($db_conn, "SELECT 1 FROM pg_catalog.pg_user WHERE usename = 'jp
 $databases = [
     'product',
     'customer',
-    'hr'
+    'hr',
+    'wms_1'
 ];
 
 $connections = [];
