@@ -2,7 +2,7 @@
   "name": "Base",
   "default_attributes": {
     "postgresql": {
-        "version": "9.3",
+        "version": "9.4",
         "enable_pgdg_apt": "true",
         "config": {
             "ssl": "false"
