@@ -23,7 +23,7 @@ foreach ($databases as $database) {
         pg_query($db_conn, "GRANT CONNECT, TEMPORARY ON DATABASE " . $database . " to jp_readwrite;");
     }
     $connections[$database] = get_connection($database);
-    load_data_if_empty($database);
+    load_data_if_empty($connections, $database);
 }
 
 //grant permissions, has to be done after tables are created and we just do this every time because why not
@@ -32,7 +32,7 @@ foreach ($databases as $database) {
     pg_query($connections[$database], $grant);
 }
 
-function load_data_if_empty($dbname) {
+function load_data_if_empty($connections, $dbname) {
     if (!has_results($connections[$dbname], "select 1 from information_schema.tables where table_schema = 'public';")) {
         /* Some notes:
         we should update this to use a pgpass file instead of the hard coded, plain text password ideally
