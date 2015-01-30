@@ -45,16 +45,18 @@ pkgs.each do |pkg|
   end
 end
 
-cookbook_file "/var/chef/php5_5.6.0-1_all.deb" do
-  source "php5_5.6.0-1_all.deb"
+php_version = "5.6.5-1"
+
+cookbook_file "/var/chef/php5_#{php_version}_all.deb" do
+  source "php5_#{php_version}_all.deb"
   owner "root"
   group "root"
   mode "0444"
 end
 
-package 'php5_5.6.0-1_all.deb' do
+package "php5_#{php_version}_all.deb" do
   provider Chef::Provider::Package::Dpkg
-  source "/var/chef/php5_5.6.0-1_all.deb"
+  source "/var/chef/php5_#{php_version}_all.deb"
   action :install
 end
 
