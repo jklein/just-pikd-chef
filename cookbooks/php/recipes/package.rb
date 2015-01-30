@@ -45,7 +45,7 @@ pkgs.each do |pkg|
   end
 end
 
-php_version = "5.6.5-1"
+php_version = "5.6.0-1"
 
 cookbook_file "/var/chef/php5_#{php_version}_all.deb" do
   source "php5_#{php_version}_all.deb"
