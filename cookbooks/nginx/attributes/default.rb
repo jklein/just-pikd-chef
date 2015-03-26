@@ -23,7 +23,9 @@
 # In order to update the version, the checksum attribute must be changed too.
 # This attribute is in the source.rb file, though we recommend overriding
 # attributes by modifying a role, or the node itself.
-default['nginx']['version']      = '1.6.1'
+# This only applies to installing from source
+default['nginx']['version']      = '1.7.11'
+
 default['nginx']['package_name'] = 'nginx'
 default['nginx']['dir']          = '/etc/nginx'
 default['nginx']['script_dir']   = '/usr/sbin'

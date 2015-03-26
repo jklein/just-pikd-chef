@@ -36,16 +36,22 @@ pkgs.each do |pkg|
   end
 end
 
-cookbook_file "/var/chef/nginx_1.6.1-1~trusty_amd64.deb" do
-  source "nginx_1.6.1-1~trusty_amd64.deb"
+cookbook_file "/var/chef/nginx_#{node['nginx']['version']}-1~trusty_amd64.deb" do
+  source "/mnt/database/nginx_#{node['nginx']['version']}-1~trusty_amd64.deb"
   owner "root"
   group "root"
   mode "0444"
 end
 
-package 'nginx_1.6.1-1~trusty_amd64.deb' do
+
+log "message" do
+  message "About to install nginx from a package"
+  level :info
+end
+
+package "nginx_#{node['nginx']['version']}-1~trusty_amd64.deb" do
   provider Chef::Provider::Package::Dpkg
-  source "/var/chef/nginx_1.6.1-1~trusty_amd64.deb"
+  source "/var/chef/nginx_#{node['nginx']['version']}-1~trusty_amd64.deb"
   action :install
   notifies :reload, 'ohai[reload_nginx]', :immediately
 end
