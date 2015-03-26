@@ -20,6 +20,7 @@
 
 lib_dir = 'lib'
 
+default['php']['version'] = '5.6.7-1'
 default['php']['install_method'] = 'package'
 default['php']['directives'] = {}
 default['php']['bin'] = 'php'
