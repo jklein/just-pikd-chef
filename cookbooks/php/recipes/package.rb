@@ -47,10 +47,16 @@ end
 
 deb_name = "php5_#{node['php']['version']}_all.deb"
 
-bash "Move the PHP deb so we can install it" do
+# This is the hash from the "direct" url in Box.net
+box_hash = "26q13gra5thbtmvbf59ss1eu6lssi5hp"
+
+bash "Download and move the PHP deb so we can install it" do
   code <<-EOH
-    cp /mnt/database/#{deb_name} /var/chef/#{deb_name}
+    cd /tmp
+    wget https://g2gmarketinc.box.com/shared/static/#{box_hash}.deb
+    cp /tmp/#{box_hash}.deb /var/chef/#{deb_name}
   EOH
+  not_if { ::File.exists?("/tmp/#{box_hash}.deb") }
 end
 
 package "#{deb_name}" do

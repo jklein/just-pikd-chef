@@ -38,10 +38,16 @@ end
 
 deb_name = "nginx_#{node['nginx']['version']}-1~trusty_amd64.deb"
 
-bash "Move the nginx deb so we can install it" do
+# This is the hash from the "direct" url in Box.net
+box_hash = "orleu5l1m756zib2w0pr67ff11qgfuut"
+
+bash "Download and move the nginx deb so we can install it" do
   code <<-EOH
-    cp /mnt/database/#{deb_name} /var/chef/#{deb_name}
+    cd /tmp
+    wget https://g2gmarketinc.box.com/shared/static/#{box_hash}.deb
+    cp /tmp/#{box_hash}.deb /var/chef/#{deb_name}
   EOH
+  not_if { ::File.exists?("/tmp/#{box_hash}.deb") }
 end
 
 package "#{deb_name}" do
