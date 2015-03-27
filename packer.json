@@ -9,18 +9,29 @@
     "access_key": "{{user `aws_access_key`}}",
     "secret_key": "{{user `aws_secret_key`}}",
     "region": "us-east-1",
-    "source_ami": "ami-dc5387b4",
+    "source_ami": "ami-fc5e7594",
     "instance_type": "t1.micro",
     "ssh_username": "ubuntu",
     "ami_name": "packer-example {{timestamp}}"
   }],
 
+  "push": {
+    "name": "jklein/web-config"
+  },
+
   "provisioners": [{
     "type": "chef-solo",
     "cookbook_paths": ["cookbooks"],
     "roles_path": "roles",
-    "run_list": [ "role[web]" ]
+    "run_list": [ "role[ProdWeb]" ]
   }],
 
-  "post-processors": ["vagrant"]
+  "post-processors": [{
+    "type": "atlas",
+    "artifact": "jklein/web-artifact",
+    "artifact_type": "aws.ami",
+    "metadata": {
+      "created_at": "{{timestamp}}"
+    }
+  }]
 }
